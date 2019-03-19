@@ -312,7 +312,7 @@ def main(argv=sys.argv[1:], config=None):
     if editor is None:
         raise ValueError('Unable to find an editor.')
 
-    token = os.environ.get('YOU_GET_MY_JIST', config.get('gist', 'token'))
+    token = os.environ.get('YOU_GET_MY_JIST', None) or config.get('gist', 'token')
     gapi = gist.GistAPI(token=token, editor=editor)
 
     if args['list']:
