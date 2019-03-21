@@ -294,8 +294,11 @@ def main(argv=sys.argv[1:], config=None):
             with open(config_path) as fp:
                 config.readfp(fp)
         except Exception as e:
-            message = 'Unable to load configuration file: {0}'.format(e)
-            raise ValueError(message)
+            if 'YOU_GET_MY_JIST' in os.environ:
+                config = {}
+            else:
+                message = 'Unable to load configuration file: {0}'.format(e)
+                raise ValueError(message)
 
     try:
         log_level = config.get('gist', 'log-level').upper()
