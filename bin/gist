@@ -443,7 +443,7 @@ def main(argv=sys.argv[1:], config=None):
                 raise GistError('gnupg-fingerprint missing from config file')
 
         # Retrieve the data to add to the gist
-        if sys.stdin.isatty():
+        if sys.stdin.isatty() or 'YOU_GET_MY_JIST' in os.environ:
             if args['FILES']:
                 logger.debug('action: - reading from files')
                 files = {}

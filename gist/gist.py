@@ -257,7 +257,13 @@ class GistAPI(object):
                 "public": public,
                 "files": files,
                 })
-        return self.send(request).json()['html_url']
+
+        resp = self.send(request).json()
+        if 'html_url' not in resp:
+            raise RuntimeError('Gist url not generated, response was \n%s\nrequest was \n%s' % (str(resp),
+                                                                                                str(request.data)))
+        else:
+            return resp['html_url']
 
     @authenticate.delete
     def delete(self, request, id):
