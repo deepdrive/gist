@@ -273,6 +273,19 @@ def xdg_data_config(default):
     return default
 
 
+def remove_surrounding_quotes(strings):
+    quotes = ['"', "'"]
+    ret = []
+    for i, s in enumerate(strings):
+        for q in quotes:
+            if s.startswith(q):
+                s = s[1:]
+            if s.endswith(q):
+                s = s[:-1]
+        ret.append(s)
+    return ret
+
+
 def main(argv=sys.argv[1:], config=None):
     args = docopt.docopt(
             __doc__,
@@ -447,8 +460,10 @@ def main(argv=sys.argv[1:], config=None):
             if args['FILES']:
                 logger.debug('action: - reading from files')
                 files = {}
+                args['FILES'] = remove_surrounding_quotes(args['FILES'])
                 for path in args['FILES']:
                     name = os.path.basename(path)
+
                     with open(path, 'rb') as fp:
                         files[name] = fp.read().decode('utf-8')
             else:
